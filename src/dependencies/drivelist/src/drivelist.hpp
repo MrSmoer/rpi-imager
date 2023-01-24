@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <sys/stat.h>
 
 namespace Drivelist {
 
@@ -46,6 +47,7 @@ struct DeviceDescriptor {
   std::vector<std::string> mountpoints;
   std::vector<std::string> mountpointLabels;
   std::vector<std::string> childDevices;
+  uint64_t attachTimestamp;
   bool isReadOnly;  // Device is read-only
   bool isSystem;  // Device is a system drive
   bool isVirtual;  // Device is a virtual storage device

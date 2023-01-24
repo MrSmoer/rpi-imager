@@ -144,7 +144,9 @@ namespace Drivelist
                     d.isSystem = false;
                 }
             }
-
+            struct stat stats;
+            stat(d.device.c_str(), &stats);
+            d.attachTimestamp = stats.st_ctime;
             deviceList.push_back(d);
         }
 

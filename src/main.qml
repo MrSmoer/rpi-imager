@@ -761,15 +761,18 @@ ApplicationWindow {
             width: window.width-100
             height: 60
             Accessible.name: {
-                var txt = description+" - "+(size/1000000000).toFixed(1)+" gigabytes"
+                var txt = description+" - "+(size/1000000000).toFixed(1)+" gigabytes - attached "+attachTimestamp
                 if (mountpoints.length > 0) {
                     txt += qsTr("Mounted as %1").arg(mountpoints.join(", "))
+
                 }
+                console.log(attachTimestamp)
                 return txt;
             }
             property string description: model.description
             property string device: model.device
             property string size: model.size
+            property date attachTimestamp: model.attachTimestamp
 
             Rectangle {
                id: dstbgrect
@@ -810,16 +813,17 @@ ApplicationWindow {
                         font.family: roboto.name
                         text: {
                             var sizeStr = (size/1000000000).toFixed(1)+" GB";
+                            var attachTimestampStr = attachTimestamp;
                             var txt;
                             if (isReadOnly) {
-                                txt = "<p><font size='4' color='grey'>"+description+" - "+sizeStr+"</font></p>"
+                                txt = "<p><font size='4' color='grey'>"+description+" - "+sizeStr+" - attached on "+attachTimestampStr+"</font></p>"
                                 txt += "<font color='grey'>"
                                 if (mountpoints.length > 0) {
                                     txt += qsTr("Mounted as %1").arg(mountpoints.join(", "))+" "
                                 }
                                 txt += qsTr("[WRITE PROTECTED]")+"</font>"
                             } else {
-                                txt = "<p><font size='4'>"+description+" - "+sizeStr+"</font></p>"
+                                txt = "<p><font size='4'>"+description+" - "+sizeStr+" - attached on "+attachTimestampStr+"</font></p>"
                                 if (mountpoints.length > 0) {
                                     txt += "<font color='grey'>"+qsTr("Mounted as %1").arg(mountpoints.join(", "))+"</font>"
                                 }

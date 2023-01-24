@@ -8,6 +8,7 @@
 #include "dependencies/drivelist/src/drivelist.hpp"
 #include <QSet>
 #include <QDebug>
+#include <QDateTime>
 
 DriveListModel::DriveListModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -16,6 +17,7 @@ DriveListModel::DriveListModel(QObject *parent)
         {deviceRole, "device"},
         {descriptionRole, "description"},
         {sizeRole, "size"},
+        {attachTimestampRole, "attachTimestamp"},
         {isUsbRole, "isUsb"},
         {isScsiRole, "isScsi"},
         {isReadOnlyRole, "isReadOnly"},
@@ -95,8 +97,7 @@ void DriveListModel::processDriveList(std::vector<Drivelist::DeviceDescriptor> l
                 beginResetModel();
                 changes = true;
             }
-
-            _drivelist[deviceNamePlusSize] = new DriveListItem(QString::fromStdString(i.device), QString::fromStdString(i.description), i.size, i.isUSB, i.isSCSI, i.isReadOnly, mountpoints, this);
+            _drivelist[deviceNamePlusSize] = new DriveListItem(QString::fromStdString(i.device), QString::fromStdString(i.description), i.size, QDateTime::fromMSecsSinceEpoch(i.attachTimestamp * 1000, Qt::UTC), i.isUSB, i.isSCSI, i.isReadOnly, mountpoints, this);
         }
     }
 
