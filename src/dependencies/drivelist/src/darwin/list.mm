@@ -148,6 +148,15 @@ namespace Drivelist {
     device.isUAS = false;
     device.isUASNull = true;
 
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [NSString stringWithUTF8String:("/dev/"+diskBsdName).c_str()];
+    NSDate *dates = [[fileManager attributesOfItemAtPath:path error:NULL] fileModificationDate];
+    //TODO path can be null and remove debug
+    NSLog(@"Unix time: %@", dates);
+    NSTimeInterval unixTime = [dates timeIntervalSince1970];
+    NSLog(@"real Unix time: %f",unixTime);
+    device.attachTimestamp = unixTime;
+
     return device;
   }
 
